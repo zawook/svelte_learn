@@ -55,16 +55,45 @@
 		console.log( count )
 		console.log( doubled )
 	}
+	$: if(count>=10) {
+		alert('카운트가 10을 넘었습니다. 처음으로 돌아갑니다.')
+		count = 0
+	}
+	let m = { x:0, y:0};
+	function handleMousemove(event){
+		m.x = event.clientX;
+		m.y = event.clientY;
+	}
+	function handleClick3(param){
+		alert(`선택값 ${param}`)
+	}
+	function handleClick4(param){
+		alert(`선택값은바로바로 ${param}`)
+	}
 </script>
 <Header />
 <main>
+	<button on:click={() => handleClick3('버튼1')}>	버튼1번을눌러보세요 </button>
+	<button on:click={() => handleClick4('버튼2')}> 버튼2번을눌러보세요 </button>
+	<button on:click={() => handleClick3('버튼3')}> 버튼3번을눌러보세요 </button>
+	
+	<!-- 인자값을 넘겨야 하는데 화살표함수를 쓰지 않은 이벤트는 코드 실행과 동시에 발동해 버린다. 주의!
+		<button on:click={handleClick3('버튼3')}> 버튼3번을누르면어떤일이 </button>
+		<button on:click={handleClick3('버튼4')}> 버튼4번은 3번과 같은 이벤트로 지정되어 있고 화살표함수를 쓰지 않음 </button>
+	-->
+	<div class='one' on:mousemove={handleMousemove}>
+		The mouse position is {m.x} x {m.y}
+	</div>
+	<div class="two" on:mousemove="{e => m = {x: e.clientX, y: e.clientY}}">
+		Second function mouse position is {m.x} x {m.y}
+	</div>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<Nested />
 	<Content />
 	<Content />
 	<button on:click={handleClick}>
-		클릭수 {count} {count===1 ? 'time' : 'times'}<!-- { } 기호로 마크업에 상태값 표시-->
+		클릭수 {count} {count<=1 ? 'time' : 'times'}<!-- { } 기호로 마크업에 상태값 표시-->
 	</button>
 	<p>{count}의 두 배 값 출력 : {doubled}</p>
 	<h2>이름 : {my.name}</h2>
@@ -106,4 +135,12 @@
 			max-width: none;
 		}
 	}
+	div.one {
+		width:500px; height:500px;
+		background-color: black;
+		}
+		.two {
+			width:200px; height: 200px;
+			background-color: red;
+		}
 </style>
