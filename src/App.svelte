@@ -4,6 +4,8 @@
 	import Header from './header.svelte';
 	import Content from './content.svelte';
 	import Footer from './footer.svelte';
+	import Child from './child.svelte';
+	import Child2 from './child2.svelte';
 
 	let count = 0; // state(상태값)
 
@@ -70,9 +72,21 @@
 	function handleClick4(param){
 		alert(`선택값은바로바로 ${param}`)
 	}
+	function handleClick5(param){
+		alert('only one alert')
+	}
+	let count3 = 15;
+	const handleClick6 = () => count3 += 1;
+	let count4=0;
+	const handleClick8= () => count4 += 1;
 </script>
 <Header />
+<Child carryValue={12} />
+<Child carryValue={count3} handleClick6={handleClick6} />
+<Child2 {count4} {handleClick8} />
 <main>
+	<button on:click={handleClick6}>클릭</button>
+	<button on:click|once={handleClick5}>한 번만 경고창이 뜨는 버튼</button>
 	<button on:click={() => handleClick3('버튼1')}>	버튼1번을눌러보세요 </button>
 	<button on:click={() => handleClick4('버튼2')}> 버튼2번을눌러보세요 </button>
 	<button on:click={() => handleClick3('버튼3')}> 버튼3번을눌러보세요 </button>
